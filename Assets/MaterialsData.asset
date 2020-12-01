@@ -14,3 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _activeMaterial: {fileID: 2100000, guid: 374f7fc393e611f42b1b1c62a25ad445, type: 2}
   _inactiveMaterial: {fileID: 2100000, guid: 093b8460bff837e41bf64ba390b5489f, type: 2}
+  _indicatorMaterial: {fileID: 2100000, guid: a8e5f1392739861438e4a9b9921437c8, type: 2}
+  _solveCubes:
+  - 1
+  - 2
+  - 3
+  _activeCubes:
+  - 8
+  - 5
+  - 2

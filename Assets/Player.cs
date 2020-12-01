@@ -18,21 +18,30 @@ public class Player : MonoBehaviour
     // References
     [SerializeField] Camera _cam;
     private CharacterController _controller;
+    private Vector3 _origin;
 
+    private int _totalJumps = 1;
+    [SerializeField] private int _jumps = 1;
 
+    [SerializeField] GameObject _floorGrid;
 
     // Start is called before the first frame update
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         _controller = GetComponent<CharacterController>();
+        _origin = new Vector3(transform.position.x, transform.position.y, transform.position.z);
     }
 
     // Update is called once per frame
     void Update()
     {
         Aim();
+        if (_controller.isGrounded) _jumps = _totalJumps;
         Move();
+        if (transform.position.y < -5) {
+            Reset();
+        }
     }
 
     void Aim()
@@ -53,14 +62,28 @@ public class Player : MonoBehaviour
             _moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             _moveDirection = transform.TransformDirection(_moveDirection);
             _moveDirection *= _movementSpeed;
-
+            
             //Jumps
             if (Input.GetKeyDown("space"))
             {
                 _moveDirection.y += _jumpSpeed;
+
+                if (!_controller.isGrounded)
+                {
+                    _jumps -= 1;
+                }
             }
+
+
         } else {
             _moveDirection = new Vector3(Input.GetAxis("Horizontal"), _moveDirection.y, Input.GetAxis("Vertical"));
+            
+            if (Input.GetKeyDown("space") && _jumps > 0)
+            {
+                _moveDirection.y += _jumpSpeed;
+                _jumps -= 1;
+            }
+
             _moveDirection = transform.TransformDirection(_moveDirection);
             _moveDirection.x *= _movementSpeed;
             _moveDirection.z *= _movementSpeed;
@@ -69,5 +92,12 @@ public class Player : MonoBehaviour
         _controller.Move(_moveDirection * Time.deltaTime);
     }
 
+    void Reset() {
+        transform.position = _origin;
+        foreach (Transform child in _floorGrid.transform) {
+            PlateCube script = child.Find("PlateCube").gameObject.GetComponent<PlateCube>();
+            script.SetInactive();
+        }
+    }
 
 }

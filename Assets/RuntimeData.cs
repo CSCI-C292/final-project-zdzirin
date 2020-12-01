@@ -9,5 +9,8 @@ public class RuntimeData : ScriptableObject
     // Materials for cube for easy swapping : )
     [SerializeField] public Material _activeMaterial;
     [SerializeField] public Material _inactiveMaterial;
+    [SerializeField] public Material _indicatorMaterial;
+    [SerializeField] public List<string> _solveCubes;
+    [SerializeField] public List<string> _activeCubes;
 
 }

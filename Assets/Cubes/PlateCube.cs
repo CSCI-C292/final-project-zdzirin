@@ -28,9 +28,22 @@ public class PlateCube : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
-        _isActive = !_isActive;
+        if (other.name == "Character") {
+            _isActive = !_isActive;
+            if (_isActive) {
+                Debug.Log(this.transform.parent.gameObject);
+                _runtimeData._activeCubes.Add(this.transform.parent.name);
+            } else {
+                _runtimeData._activeCubes.Remove(this.transform.parent.name);
+            }
+        }
     }
 
     public bool GetActive() { return _isActive; }
+
+    public void SetInactive() { 
+        _isActive = false; 
+        _runtimeData._activeCubes.Remove(this.transform.parent.name);
+    } 
 
 }
