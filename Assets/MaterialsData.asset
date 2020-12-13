@@ -23,3 +23,6 @@ MonoBehaviour:
   - 8
   - 5
   - 2
+  _levelName: 'Level 1: Welcome To The Cube'
+  _solved: 0
+  _showingSolution: 0

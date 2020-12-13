@@ -20,10 +20,12 @@ public class Player : MonoBehaviour
     private CharacterController _controller;
     private Vector3 _origin;
 
-    private int _totalJumps = 1;
-    [SerializeField] private int _jumps = 1;
+    [SerializeField] private int _totalJumps = 1;
+    private int _jumps = 1;
 
     [SerializeField] GameObject _floorGrid;
+
+    [SerializeField] private int _maxFall = -35; 
 
     // Start is called before the first frame update
     void Start()
@@ -36,10 +38,10 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Aim();
         if (_controller.isGrounded) _jumps = _totalJumps;
+        Aim();
         Move();
-        if (transform.position.y < -5) {
+        if (transform.position.y < _maxFall) {
             Reset();
         }
     }
@@ -58,6 +60,16 @@ public class Player : MonoBehaviour
     }
 
     void Move() {
+        if (Input.GetKeyDown(KeyCode.LeftShift)) 
+        {
+            _gravity *= 3;
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftShift)) 
+        {
+            _gravity /= 3;
+        }
+
         if (_controller.isGrounded) {
             _moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             _moveDirection = transform.TransformDirection(_moveDirection);
@@ -66,6 +78,8 @@ public class Player : MonoBehaviour
             //Jumps
             if (Input.GetKeyDown("space"))
             {
+                Debug.Log("Jumps: " + _jumps.ToString());
+
                 _moveDirection.y += _jumpSpeed;
 
                 if (!_controller.isGrounded)
@@ -80,6 +94,7 @@ public class Player : MonoBehaviour
             
             if (Input.GetKeyDown("space") && _jumps > 0)
             {
+                Debug.Log("Jumps: " + _jumps.ToString());
                 _moveDirection.y += _jumpSpeed;
                 _jumps -= 1;
             }
@@ -98,6 +113,10 @@ public class Player : MonoBehaviour
             PlateCube script = child.Find("PlateCube").gameObject.GetComponent<PlateCube>();
             script.SetInactive();
         }
+    }
+
+    public int GetTotalJumps() {
+        return _totalJumps;
     }
 
 }

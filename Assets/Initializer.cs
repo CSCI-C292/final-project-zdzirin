@@ -8,6 +8,8 @@ public class Initializer : MonoBehaviour
     void Start()
     {
         _runtimeData._activeCubes.Clear();
+        _runtimeData._solved = false;
+        _runtimeData._showingSolution = false;
     }
 
 }

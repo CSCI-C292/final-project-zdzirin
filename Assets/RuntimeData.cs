@@ -13,4 +13,10 @@ public class RuntimeData : ScriptableObject
     [SerializeField] public List<string> _solveCubes;
     [SerializeField] public List<string> _activeCubes;
 
+    [SerializeField] public string _levelName;
+
+    public bool _solved = false;
+
+    public bool _showingSolution = false;
+
 }
